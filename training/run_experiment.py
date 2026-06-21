@@ -65,22 +65,24 @@ def run_experiment(model_class,
         loss_fn=loss_fn,
         epochs=epochs
     )
+
+    file_suffix = model_name.lower().replace(' ', '-')
     
-    save_history_to_json(history, HISTORIES_DIR / f'{model_name.lower()}.json')
+    save_history_to_json(history, HISTORIES_DIR / f'{file_suffix}.json')
     
     plot_learning_curves(history,
                           'auroc',
-                          REPORTS_DIR / f'curves_auroc_{model_name.lower()}.png',
+                          REPORTS_DIR / f'curves_auroc_{file_suffix}.png',
                           title=f'{model_name} - AUROC',
                           y_bottom=80)
     plot_learning_curves(history,
                           'f1',
-                          REPORTS_DIR / f'curves_f1_{model_name.lower()}.png',
+                          REPORTS_DIR / f'curves_f1_{file_suffix}.png',
                           title=f'{model_name} - F1-Score',
                           y_bottom=40,
                           y_top=80)
     plot_loss_curves(history,
-                     REPORTS_DIR / f'curves_loss_{model_name.lower()}.png',
+                     REPORTS_DIR / f'curves_loss_{file_suffix}.png',
                      title=f'{model_name} - Loss')
 
     print(f'Experiment {model_name} completed.')

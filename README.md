@@ -10,5 +10,6 @@ A deep learning project focused on multi-label classification of cardiac abnorma
     * **CNN-LSTM**
     * **CNN-GRU**
     * **CNN-FKAN**
+    * **CNN-LSTM-FKAN**
     * **GRU**
     * **ResNet**

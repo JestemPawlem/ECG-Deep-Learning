@@ -72,17 +72,17 @@ def run_experiment(model_class,
     
     plot_metric_curves(history,
                        'auroc',
-                       REPORTS_DIR / f'curves_auroc_{file_suffix}.png',
+                       REPORTS_DIR / 'auroc' / f'curves_auroc_{file_suffix}.png',
                        title=f'{model_name} - AUROC',
                        y_bottom=80)
     plot_metric_curves(history,
                        'f1',
-                       REPORTS_DIR / f'curves_f1_{file_suffix}.png',
+                       REPORTS_DIR / 'f1' / f'curves_f1_{file_suffix}.png',
                        title=f'{model_name} - F1-Score',
                        y_bottom=40,
                        y_top=80)
     plot_loss_curves(history,
-                     REPORTS_DIR / f'curves_loss_{file_suffix}.png',
+                     REPORTS_DIR / 'loss' / f'curves_loss_{file_suffix}.png',
                      title=f'{model_name} - Loss')
 
     print(f'Experiment {model_name} completed.')

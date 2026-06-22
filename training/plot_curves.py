@@ -1,15 +1,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def plot_learning_curves(history,
-                         metric_key,
-                         output_path,
-                         title,
-                         y_bottom=50,
-                         y_top=100):
+def plot_metric_curves(history,
+                       metric_key,
+                       output_path,
+                       title,
+                       y_bottom=50,
+                       y_top=100):
     plt.figure(figsize=(10, 6))
     
-    label_suffix = "ROC AUC" if metric_key == 'auroc' else 'F1'
+    label_suffix = 'ROC AUC' if metric_key == 'auroc' else 'F1'
     train_values = np.array(history['train_' + metric_key]) * 100
     validation_values = np.array(history['val_' + metric_key]) * 100
     epochs_range = range(1, len(validation_values) + 1)

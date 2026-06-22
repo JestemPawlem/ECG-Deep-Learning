@@ -13,7 +13,7 @@ from torch.utils.data import TensorDataset, DataLoader
 
 from training.train_model import train_model
 from training.save_history import save_history_to_json
-from training.plot_curves import plot_learning_curves, plot_loss_curves
+from training.plot_curves import plot_metric_curves, plot_loss_curves
 
 
 def run_experiment(model_class, 
@@ -66,21 +66,21 @@ def run_experiment(model_class,
         epochs=epochs
     )
 
-    file_suffix = model_name.lower().replace(' ', '-')
+    file_suffix = model_name.lower().replace(' ', '_')
     
     save_history_to_json(history, HISTORIES_DIR / f'{file_suffix}.json')
     
-    plot_learning_curves(history,
-                          'auroc',
-                          REPORTS_DIR / f'curves_auroc_{file_suffix}.png',
-                          title=f'{model_name} - AUROC',
-                          y_bottom=80)
-    plot_learning_curves(history,
-                          'f1',
-                          REPORTS_DIR / f'curves_f1_{file_suffix}.png',
-                          title=f'{model_name} - F1-Score',
-                          y_bottom=40,
-                          y_top=80)
+    plot_metric_curves(history,
+                       'auroc',
+                       REPORTS_DIR / f'curves_auroc_{file_suffix}.png',
+                       title=f'{model_name} - AUROC',
+                       y_bottom=80)
+    plot_metric_curves(history,
+                       'f1',
+                       REPORTS_DIR / f'curves_f1_{file_suffix}.png',
+                       title=f'{model_name} - F1-Score',
+                       y_bottom=40,
+                       y_top=80)
     plot_loss_curves(history,
                      REPORTS_DIR / f'curves_loss_{file_suffix}.png',
                      title=f'{model_name} - Loss')

@@ -7,9 +7,10 @@ A deep learning project focused on multi-label classification of cardiac abnorma
 * **12-lead Processing:** Utilizes the complete spatial context of ECGs
 * **Modern Architectures** Includes implementations of:
     * **CNN**
-    * **CNN-LSTM**
-    * **CNN-GRU**
     * **CNN-FKAN**
+    * **CNN-LSTM**
     * **CNN-LSTM-FKAN**
+    * **CNN-GRU**
+    * **CNN-GRU-FKAN**
     * **GRU**
     * **ResNet**

@@ -3,7 +3,7 @@ from pathlib import Path
 
 BASE_DIR = Path().resolve().parent
 CLEAN_DATA_DIR = BASE_DIR / 'datasets' / 'ptb-xl' / 'data_clean'
-REPORTS_DIR = BASE_DIR / 'reports' / 'figures'
+REPORTS_DIR = BASE_DIR / 'reports' / 'figures' / 'learning_curves'
 HISTORIES_DIR = BASE_DIR / 'reports' / 'histories'
 
 

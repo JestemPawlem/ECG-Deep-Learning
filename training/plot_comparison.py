@@ -10,7 +10,7 @@ def plot_metric_comparison(histories,
                            y_top=100):
     plt.figure(figsize=(10, 6))
 
-    colors = ["#1f77b4", "#2ca02c", "#ff7f0e", "#d62728", "#9467bd", "#8c564b"]
+    colors = colors = plt.cm.tab10.colors
     label_suffix = 'ROC AUC' if metric_key == 'auroc' else 'F1-Score'
 
     for idx, (model_name, history) in enumerate(histories.items()):
@@ -21,17 +21,17 @@ def plot_metric_comparison(histories,
         plt.plot(epochs_range,
                  values,
                  color=color,
-                 linewidth=2,
+                 linewidth=1,
                  label=f'{model_name}')
 
     plt.ylim(y_bottom, y_top)
     plt.yticks(np.arange(y_bottom, y_top + 1, 5))
     plt.xticks(np.arange(len(epochs_range) // 10, len(epochs_range) + 1, len(epochs_range) // 10))
 
-    plt.title(title, fontsize=12, fontweight="bold")
+    plt.title(title, fontsize=12, fontweight='bold')
     plt.xlabel('Epoch')
     plt.ylabel(f'Validation {label_suffix} [%]')
-    plt.grid(True, linestyle="--", alpha=0.6)
+    plt.grid(True, linestyle='--', alpha=0.6)
     plt.legend(loc='lower right')
 
     plt.tight_layout()
@@ -45,27 +45,27 @@ def plot_loss_comparison(histories,
                          y_top=1.0):
     plt.figure(figsize=(10, 6))
 
-    colors = ["#1f77b4", "#2ca02c", "#ff7f0e", "#d62728", "#9467bd", "#8c564b"]
+    colors = colors = plt.cm.tab10.colors
 
     for idx, (model_name, history) in enumerate(histories.items()):
         color = colors[idx % len(colors)]
-        values = np.array(history["val_loss"])
+        values = np.array(history['val_loss'])
         epochs_range = range(1, len(values) + 1)
 
         plt.plot(epochs_range,
                  values,
                  color=color,
-                 linewidth=2,
+                 linewidth=1,
                  label=f'{model_name}')
 
     plt.ylim(y_bottom, y_top)
     plt.yticks(np.arange(0, 1, 0.05))
     plt.xticks(np.arange(len(epochs_range) // 10, len(epochs_range) + 1, len(epochs_range) // 10))
 
-    plt.title(title, fontsize=12, fontweight="bold")
+    plt.title(title, fontsize=12, fontweight='bold')
     plt.xlabel('Epoch')
     plt.ylabel('Validation Loss')
-    plt.grid(True, linestyle="--", alpha=0.6)
+    plt.grid(True, linestyle='--', alpha=0.6)
     plt.legend(loc='upper right')
 
     plt.tight_layout()

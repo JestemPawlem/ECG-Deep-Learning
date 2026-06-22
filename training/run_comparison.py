@@ -36,8 +36,8 @@ def run_comparison(model_names, metric):
                              title=f'Models Comparison - Validation Loss')
     else:
         label = 'F1-Score' if metric == 'f1' else 'AUROC'
-        y_min = 40 if metric == 'f1' else 80
-        y_max = 80 if metric == 'f1' else 100
+        y_min = 55 if metric == 'f1' else 80
+        y_max = 75 if metric == 'f1' else 100
 
         plot_metric_comparison(histories=histories,
                                metric_key=metric,

@@ -67,7 +67,7 @@ def train_model(model,
             
         val_probs = torch.cat(val_probs).numpy()
         val_targets = torch.cat(val_targets).numpy()
-        val_preds = (val_probs >= 0.4).astype(np.float32)
+        val_preds = (val_probs >= 0.5).astype(np.float32)
 
         val_auroc = roc_auc_score(val_targets, val_probs, average='macro')
         val_f1 = f1_score(val_targets, val_preds, average='macro')

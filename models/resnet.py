@@ -4,7 +4,7 @@ import torch.nn as nn
 from .layers.resnet_layer import ResnetLayer
 
 
-class Resnet(nn.Module):
+class ResNet(nn.Module):
     def __init__(self,
                  num_classes=4,
                  input_channels=12,

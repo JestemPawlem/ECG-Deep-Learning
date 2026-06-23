@@ -1,16 +1,16 @@
 from pathlib import Path
 
 BASE_DIR = Path().resolve().parent
-REPORTS_DIR = BASE_DIR / 'reports' / 'figures' / 'comparisons'
-HISTORIES_DIR = BASE_DIR / 'reports' / 'histories'
+FIGURES_DIR = BASE_DIR / 'outputs' / 'figures' / 'comparisons'
+REPORTS_DIR = BASE_DIR / 'outputs' / 'reports'
 
 
 import json
 
-from training.plot_comparison import plot_metric_comparison, plot_loss_comparison
+from training.plot_comparison import plot_comparison
 
 
-VALID_METRICS = ['f1', 'auroc', 'loss']
+VALID_METRICS = ['roc_auc', 'pr_auc', 'loss']
 
 
 def run_comparison(model_names, metric):
@@ -23,25 +23,23 @@ def run_comparison(model_names, metric):
     for name in model_names:
         filename = name.lower().replace(' ', '_')
         model_filenames.append(filename)
-        json_path = HISTORIES_DIR / f'{filename}.json'
+        json_path = REPORTS_DIR / f'{filename}.json'
 
         with open(json_path, 'r') as f:
             histories[name] = json.load(f)
 
-    suffix = "_vs_".join(model_filenames)
+    filename = '_vs_'.join(model_filenames) + '.png'
 
     if metric == 'loss':
-        plot_loss_comparison(histories=histories,
-                             output_path=REPORTS_DIR / f'comparison_loss_{suffix}.png',
-                             title=f'Models Comparison - Validation Loss')
+        plot_comparison(histories=histories,
+                        metric=metric,
+                        output_path=FIGURES_DIR / metric / filename)
     else:
-        label = 'F1-Score' if metric == 'f1' else 'AUROC'
-        y_min = 55 if metric == 'f1' else 80
-        y_max = 75 if metric == 'f1' else 100
+        y_min = 55 if metric == 'pr_auc' else 80
+        y_max = 75 if metric == 'pr_auc' else 100
 
-        plot_metric_comparison(histories=histories,
-                               metric_key=metric,
-                               output_path=REPORTS_DIR / f'comparison_{metric}_{suffix}.png',
-                               title=f'Models Comparison - Validation {label}',
-                               y_bottom=y_min,
-                               y_top=y_max)
+        plot_comparison(histories=histories,
+                        metric=metric,
+                        output_path=FIGURES_DIR / metric / filename,
+                        y_bottom=y_min,
+                        y_top=y_max)

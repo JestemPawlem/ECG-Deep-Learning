@@ -2,20 +2,20 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def plot_comparison(reports,
-                    metric,
-                    output_path,
-                    y_bottom=None,
-                    y_top=None):
+def plot_curve(report,
+                metric,
+                output_path,
+                title,
+                y_bottom=None,
+                y_top=None):
     plt.figure(figsize=(10, 6))
-    colors = plt.cm.tab10.colors
 
     is_loss = metric == 'loss'
 
     if is_loss:
         key_suffix = 'loss'
-        y_label = 'Validation Loss'
-        title = 'Models Comparison - Validation Loss'
+        label_suffix = 'Loss'
+        y_label = 'Loss'
         legend_loc = 'upper right'
 
         scale = 1.0
@@ -25,8 +25,7 @@ def plot_comparison(reports,
     else:
         key_suffix = metric
         label_suffix = 'PR AUC' if metric == 'pr_auc' else 'ROC AUC'
-        y_label = f'Validation {label_suffix} [%]'
-        title = f'Models Comparison - Validation {label_suffix}'
+        y_label = f'{label_suffix} [%]'
         legend_loc = 'lower right'
 
         scale = 100.0
@@ -34,16 +33,21 @@ def plot_comparison(reports,
         y_top = 100 if y_top is None else y_top
         y_ticks = np.arange(y_bottom, y_top + 1e-6, 5)
 
-    for idx, (model_name, report) in enumerate(reports.items()):
-        color = colors[idx % len(colors)]
-        values = np.array(report['val_' + key_suffix]) * scale
-        epochs_range = range(1, len(values) + 1)
+    train_values = np.array(report['train_' + key_suffix]) * scale
+    validation_values = np.array(report['val_' + key_suffix]) * scale
+    epochs_range = range(1, len(validation_values) + 1)
 
-        plt.plot(epochs_range,
-                 values,
-                 color=color,
-                 linewidth=1,
-                 label=f'{model_name}')
+    plt.plot(epochs_range,
+             train_values,
+             color='blue',
+             linewidth=1,
+             label=f'Train {label_suffix}')
+
+    plt.plot(epochs_range,
+             validation_values,
+             color='green',
+             linewidth=1,
+             label=f'Validation {label_suffix}')
 
     plt.ylim(y_bottom, y_top)
     plt.yticks(y_ticks)

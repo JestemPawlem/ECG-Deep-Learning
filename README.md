@@ -1,6 +1,6 @@
 # ECG Classification using Deep Learning
 
-A deep learning project focused on multi-label classification of cardiac abnormalities using the **PTB-XL** dataset. The pipeline includes ECG signal preprocessing and several neural network architectures optimized for 1-dimensional biomedical signals.
+A deep learning project focused on multi-label classification of cardiac abnormalities using the **PTB-XL** dataset. The pipeline includes ECG signal preprocessing and several neural network architectures optimized for 1-dimensional biomedical signals. Additionally, this project evaluates the impact of substituting traditional fully connected layers with a novel Fourier Kolmogorov-Arnold Network (FKAN) architecture across multiple models.
 
 ## Features
 * **Signal Preprocessing**: Butterworth bandpass filtering (1-45 Hz) and independent channel Z-score normalization.

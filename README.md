@@ -18,3 +18,28 @@ A deep learning project focused on multi-label classification of cardiac abnorma
     * **CNN-GRU-FKAN**
     * **GRU**
     * **ResNet**
+
+## Repository Structure
+```
+├── experiments/              # Jupyter notebooks for development and analysis
+│   ├── preprocessing.ipynb
+│   ├── testing_models.ipynb
+│   └── comparison.ipynb
+├── models/                   # Neural network architectures
+│   ├── layers/               # Custom layers
+│   ├── cnn.py
+│   ├── resnet.py
+│   ├── gru.py
+│   └── ...                   # Hybrid variants (FKAN, LSTM, GRU)
+├── outputs/                  # Pipeline artifacts
+│   ├── figures/
+│   │   ├── comparisons/      # Cross-model evaluation plots (loss, pr_auc, roc_auc)
+│   │   └── learning_curves/  # Individual train vs val curves (loss, pr_auc, roc_auc)
+│   └── reports/              # Serialized experiment metrics (.json)
+└── training/                 # Core training and visualization logic
+    ├── engine.py             # Train and evaluation loops
+    ├── plot_curve.py         # Learning curve generator
+    ├── plot_comparison.py    # Metric comparison generator
+    ├── run_experiment.py     # Single model pipeline entrypoint
+    └── run_comparison.py     # Multiple models comparison entrypoint
+```

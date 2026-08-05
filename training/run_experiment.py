@@ -4,6 +4,7 @@ BASE_DIR = Path().resolve().parent
 CLEAN_DATA_DIR = BASE_DIR / 'datasets' / 'ptb-xl' / 'data_clean'
 FIGURES_DIR = BASE_DIR / 'outputs' / 'figures' / 'learning_curves'
 REPORTS_DIR = BASE_DIR / 'outputs' / 'reports'
+MODELS_DIR = BASE_DIR / 'outputs' / 'models'
 
 
 import json
@@ -17,7 +18,7 @@ from training.plot_curve import plot_curve
 
 def run_experiment(model_class, 
                    model_name, 
-                   model_kwargs=None, 
+                   model_kwargs={}, 
                    epochs=20,
                    batch_size=64,
                    lr=0.001,
@@ -48,7 +49,6 @@ def run_experiment(model_class,
     class_weights = np.sqrt(neg_counts / (pos_counts + 1e-5))
     pos_weight_tensor = torch.tensor(class_weights, dtype=torch.float32).to(device)
     
-    model_kwargs = model_kwargs or {}
     model = model_class(**model_kwargs).to(device)
     print(f'Model parameters: {model.count_parameters():,}')
     
@@ -75,6 +75,13 @@ def run_experiment(model_class,
     final_report = train_report | test_report
 
     filename = model_name.lower().replace(' ', '_')
+
+    model_path = MODELS_DIR / f'{filename}.pt'
+    torch.save({
+        'model_state_dict': model.state_dict(),
+        'model_class_name': model_class.__name__,
+        'model_kwargs': model_kwargs,
+    }, model_path)
 
     serializable_data = {}
     for key, val in final_report.items():

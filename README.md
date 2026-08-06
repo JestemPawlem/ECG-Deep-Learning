@@ -1,45 +1,29 @@
 # ECG Classification using Deep Learning
 
-A deep learning project focused on multi-label classification of cardiac abnormalities using the **PTB-XL** dataset. The pipeline includes ECG signal preprocessing and several neural network architectures optimized for 1-dimensional biomedical signals. Additionally, this project evaluates the impact of substituting traditional fully connected layers with a novel Fourier Kolmogorov-Arnold Network (FKAN) architecture across multiple models.
+A deep learning project focused on multi-label classification of cardiac abnormalities using the **PTB-XL** dataset. The pipeline includes ECG signal preprocessing and several neural network architectures optimized for 1-dimensional biomedical signals. Furthermore, this project incorporates novel KAN-based architectures (Fourier KAN and Wavelet KAN) to evaluate and compare their performance against classical deep learning models.
 
-## Features
-* **Signal Preprocessing**: Butterworth bandpass filtering (1-45 Hz) and independent channel Z-score normalization.
-* **12-lead Processing**: Utilizes the complete spatial context of ECGs.
-* **Rigorous Evaluation Split**: Strict adherence to the official train, calidation and test split.
-* **Imbalance-aware Loss Function**: Uses a `BceWithLogitsLoss` weighted with class-specific penalties calculated from the training set distribution to counter severe multi-label class imbalance.
-* **Validation-driven Threshold Tuning**: Optimal classification thresholds for each cardiac condition are calculated using the validation set, eliminating data leakage onto the final test report.
-* **Automated Reproducibility Pipeline**: Automated workflow that serializes training histories (`.json` experiment reports) and automatically renders learning curves for training and validation set (Loss, ROC AUC, PR AUC).
-* **Modern Architectures** Includes implementations of:
-    * **CNN**
-    * **CNN-FKAN**
-    * **CNN-LSTM**
-    * **CNN-LSTM-FKAN**
-    * **CNN-GRU**
-    * **CNN-GRU-FKAN**
-    * **GRU**
-    * **ResNet**
+## Key Features
 
-## Repository Structure
-```
-├── experiments/              # Jupyter notebooks for development and analysis
-│   ├── preprocessing.ipynb
-│   ├── testing_models.ipynb
-│   └── comparison.ipynb
-├── models/                   # Neural network architectures
-│   ├── layers/               # Custom layers
-│   ├── cnn.py
-│   ├── resnet.py
-│   ├── gru.py
-│   └── ...                   # Hybrid variants (FKAN, LSTM, GRU)
-├── outputs/                  # Pipeline artifacts
-│   ├── figures/
-│   │   ├── comparisons/      # Cross-model evaluation plots (loss, pr_auc, roc_auc)
-│   │   └── learning_curves/  # Individual train vs val curves (loss, pr_auc, roc_auc)
-│   └── reports/              # Serialized experiment metrics (.json)
-└── training/                 # Core training and visualization logic
-    ├── engine.py             # Train and evaluation loops
-    ├── plot_curve.py         # Learning curve generator
-    ├── plot_comparison.py    # Metric comparison generator
-    ├── run_experiment.py     # Single model pipeline entrypoint
-    └── run_comparison.py     # Multiple models comparison entrypoint
-```
+### Data Processing & Signal Pipeline
+* **Signal Specification**: Processes 12-lead ECG signals sampled at 100 Hz (1,000 time steps per record).
+* **Preprocessing**: Butterworth bandpass filtering (1-45 Hz) and per-channel Z-score normalization.
+* **Spatial Context**: Utilizes all 12 leads (experiments with reduced lead subsets yielded inferior performance).
+* **Rigorous Evaluation Split**: Strict adherence to the official PTB-XL recommended train, validation, and test split.
+
+### Training Methodology & Metrics
+* **Imbalance-aware Loss Function**: Uses `BCEWithLogitsLoss` with square-root class-frequency reweighting to mitigate multi-label class imbalance.
+* **Validation-based Threshold Optimization**: Classification thresholds are fine-tuned per class on the validation set to maximize F1-score without test data leakage.
+* **Multi-Metric Evaluation**: Comprehensive performance assessment using Macro ROC AUC, Macro PR AUC, and Macro F1-score.
+* **Automated Experiment Tracking**: Automatically serializes training histories (`.json` reports) and renders learning curves (`figures/learning_curves/`).
+
+### Workflow & Evaluation Notebooks
+* **`testing_models.ipynb`**: Handles comprehensive model evaluation, automatic metric report generation, and plotting individual learning curves.
+* **`comparison.ipynb`**: Allows selection of multiple trained models and evaluation metrics to generate cross-architecture comparison plots (saved to `figures/comparisons/`).
+
+### Model Architectures
+Evaluates classical deep learning baselines alongside novel Kolmogorov-Arnold Network variants:
+* **Baselines**: CNN, ResNet, GRU, CNN-LSTM, CNN-GRU
+* **KAN Variants**: Fourier KAN (FKAN), Wavelet KAN (WavKAN)
+
+## Results & Visualizations
+Detailed metric reports are saved in `outputs/reports/` as JSON files. Visualizations, including cross-model comparison curves and learned basis functions (Fourier and Wavelet kernels), can be rendered dynamically via the provided notebooks or viewed directly in `outputs/figures/`.

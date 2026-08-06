@@ -30,27 +30,23 @@ class WavKAN(nn.Module):
         fc_layers = []
 
         for out_feat in fc_hidden:
-            fc_layers.extend(
-                [
+            fc_layers.extend([
                     nn.Dropout(fc_dropout),
                     nn.Linear(in_feat, out_feat),
                     nn.BatchNorm1d(out_feat),
                     nn.SiLU(),
-                ]
-            )
+            ])
             in_feat = out_feat
 
-        fc_layers.extend(
-            [
+        fc_layers.extend([
                 nn.Dropout(fc_dropout),
                 nn.Linear(in_feat, num_classes),
-            ]
-        )
+        ])
+
         self.classifier = nn.Sequential(*fc_layers)
 
     def forward(self, x):
         wav_out = self.wavkan(x)
-
         return self.classifier(wav_out)
 
     def count_parameters(self):
